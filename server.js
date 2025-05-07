@@ -3,9 +3,26 @@ const fs = require("fs");
 const WebSocket = require("ws");
 const express = require("express");
 const path = require("path");
+const express = require("express");
+const http = require("http");
+
+const express = require("express");
+const http = require("http");
+const fs = require("fs");
+const path = require("path");
+
 const app = express();
 
-app.use(express.static(path.join(__dirname, "public")));  // 📌 public 폴더에서 정적 파일 제공
+// 📌 'public' 폴더를 정적 파일 폴더로 설정
+app.use(express.static(path.join(__dirname, "public")));
+
+// 📌 index.html을 Express에서 직접 서빙
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+// 📌 서버 생성 (한 번만 선언
+ // 📌 public 폴더에서 정적 파일 제공
 
 const server = http.createServer((req, res) => {
     if (req.url === "/" || req.url === "/index.html") {
@@ -77,7 +94,7 @@ wss.on("connection", (ws) => {
 });
 
 const PORT = process.env.PORT || 8000;  
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
 
